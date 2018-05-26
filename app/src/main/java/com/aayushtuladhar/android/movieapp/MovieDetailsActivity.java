@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.aayushtuladhar.android.movieapp.databinding.ActivityMovieDetailsBinding;
@@ -18,9 +17,8 @@ import com.squareup.picasso.Picasso;
 public class MovieDetailsActivity extends AppCompatActivity {
 
     public static final String MOVIE = "MOVIE";
-    public static final String TAG = MovieDetailsActivity.class.getCanonicalName();
-
-    ActivityMovieDetailsBinding activityMovieDetailsBinding;
+    private static final String TAG = MovieDetailsActivity.class.getCanonicalName();
+    private ActivityMovieDetailsBinding activityMovieDetailsBinding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

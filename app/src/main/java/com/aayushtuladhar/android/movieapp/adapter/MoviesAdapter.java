@@ -22,9 +22,9 @@ public class MoviesAdapter extends ArrayAdapter<Movie> {
     private static final String TAG = MoviesAdapter.class.getCanonicalName();
 
     private static class ViewHolder {
-        ImageView moviePoster;
+        final ImageView moviePoster;
 
-        public ViewHolder(View view) {
+        ViewHolder(View view) {
             this.moviePoster = view.findViewById(R.id.imgPoster);
         }
     }
