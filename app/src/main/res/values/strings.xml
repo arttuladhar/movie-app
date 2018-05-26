@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Top Movies App</string>
+    <string name="detail_error_message">Unable to Load Movie</string>
+</resources>
