@@ -2,100 +2,106 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
-<android.support.constraint.ConstraintLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MovieDetailsActivity">
 
-    <TextView
-        android:id="@+id/textViewUserRating2"
-        android:layout_width="wrap_content"
-        android:layout_height="16dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="8dp"
-        android:text="/ 10"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        app:layout_constraintStart_toEndOf="@+id/textViewUserRating"
-        app:layout_constraintTop_toBottomOf="@+id/textViewReleaseDate" />
-
-    <ImageView
-        android:id="@+id/imgMovieBackdrop"
-        android:layout_width="164dp"
-        android:layout_height="212dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:stretchMode="none"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/textViewMovieTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:maxWidth="180dp"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-        app:layout_constraintStart_toEndOf="@+id/imgMovieBackdrop"
-        app:layout_constraintTop_toTopOf="@+id/imgMovieBackdrop"
-        tools:text="Movie Name" />
-
-    <TextView
-        android:id="@+id/textViewReleaseDateLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:text="Release Date"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        app:layout_constraintStart_toStartOf="@+id/textViewMovieTitle"
-        app:layout_constraintTop_toBottomOf="@+id/textViewMovieTitle" />
-
-    <TextView
-        android:id="@+id/textViewReleaseDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:fontFamily="sans-serif-condensed"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        app:layout_constraintStart_toEndOf="@+id/textViewReleaseDateLabel"
-        app:layout_constraintTop_toTopOf="@+id/textViewReleaseDateLabel"
-        tools:text="2018-04-25" />
-
-    <TextView
-        android:id="@+id/textViewUserRatingLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="User Rating"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        app:layout_constraintStart_toStartOf="@+id/textViewReleaseDateLabel"
-        app:layout_constraintTop_toBottomOf="@+id/textViewReleaseDateLabel" />
-
-    <TextView
-        android:id="@+id/textViewUserRating"
-        android:layout_width="wrap_content"
-        android:layout_height="16dp"
-        android:layout_marginTop="8dp"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        app:layout_constraintStart_toStartOf="@+id/textViewReleaseDate"
-        app:layout_constraintTop_toBottomOf="@+id/textViewReleaseDate"
-        tools:text="8.5" />
-
-    <TextView
-        android:id="@+id/textViewMoviePlot"
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:background="@android:color/holo_blue_light"
-        android:padding="8dp"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium.Inverse"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imgMovieBackdrop"
-        tools:text="Plot" />
+        android:layout_height="match_parent">
 
-</android.support.constraint.ConstraintLayout>
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".MovieDetailsActivity">
+
+            <TextView
+                android:id="@+id/textViewUserRating2"
+                android:layout_width="wrap_content"
+                android:layout_height="16dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="8dp"
+                android:text="/ 10"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                app:layout_constraintStart_toEndOf="@+id/textViewUserRating"
+                app:layout_constraintTop_toBottomOf="@+id/textViewReleaseDate" />
+
+            <ImageView
+                android:id="@+id/imgMovieBackdrop"
+                android:layout_width="164dp"
+                android:layout_height="212dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:stretchMode="none"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textViewMovieTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:maxWidth="180dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                android:textSize="24sp"
+                app:layout_constraintStart_toEndOf="@+id/imgMovieBackdrop"
+                app:layout_constraintTop_toTopOf="@+id/imgMovieBackdrop"
+                tools:text="Movie Name" />
+
+            <TextView
+                android:id="@+id/textViewReleaseDateLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Release Date"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                app:layout_constraintStart_toStartOf="@+id/textViewMovieTitle"
+                app:layout_constraintTop_toBottomOf="@+id/textViewMovieTitle" />
+
+            <TextView
+                android:id="@+id/textViewReleaseDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:fontFamily="sans-serif-condensed"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                app:layout_constraintStart_toEndOf="@+id/textViewReleaseDateLabel"
+                app:layout_constraintTop_toTopOf="@+id/textViewReleaseDateLabel"
+                tools:text="2018-04-25" />
+
+            <TextView
+                android:id="@+id/textViewUserRatingLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="User Rating"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                app:layout_constraintStart_toStartOf="@+id/textViewReleaseDateLabel"
+                app:layout_constraintTop_toBottomOf="@+id/textViewReleaseDateLabel" />
+
+            <TextView
+                android:id="@+id/textViewUserRating"
+                android:layout_width="wrap_content"
+                android:layout_height="16dp"
+                android:layout_marginTop="8dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                app:layout_constraintStart_toStartOf="@+id/textViewReleaseDate"
+                app:layout_constraintTop_toBottomOf="@+id/textViewReleaseDate"
+                tools:text="8.5" />
+
+            <TextView
+                android:id="@+id/textViewMoviePlot"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:background="@android:color/holo_blue_light"
+                android:padding="8dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium.Inverse"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imgMovieBackdrop"
+                tools:text="Plot" />
+        </android.support.constraint.ConstraintLayout>
+    </android.support.v4.widget.NestedScrollView>
 </layout>
