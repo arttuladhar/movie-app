@@ -79,19 +79,16 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.select, menu);
+        getMenuInflater().inflate(R.menu.preference, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.sort_highest_rated){
-            Toast.makeText(this, "Top Rated", Toast.LENGTH_SHORT).show();
-            getMoviesfromApi(this, Select.TOP_RATED);
-        }
-        if (item.getItemId() == R.id.sort_most_popular){
-            Toast.makeText(this, "Most Popular", Toast.LENGTH_SHORT).show();
-            getMoviesfromApi(this, Select.MOST_POPULAR);
+        if (item.getItemId() == R.id.preferences){
+            Intent startSettingsActivity = new Intent(this, SettingsActivity.class);
+            startActivity(startSettingsActivity);
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }

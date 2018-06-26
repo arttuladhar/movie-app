@@ -2,8 +2,4 @@
 
 ### Running app
 
-Update `gradle.properties` with API Key from http://themoviedb.org/
-
-```
-moviedb.apiKey=APIKEY
-```
+Update `build.grade` file to replace API Key from http://themoviedb.org/
