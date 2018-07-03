@@ -2,4 +2,6 @@
     <string name="app_name">Top Movies App</string>
     <string name="detail_error_message">Unable to Load Movie</string>
     <string name="settings_sort_by_key">sort_by</string>
+    <string name="trailer_one">Trailer 1</string>
+    <string name="trailer_two">Trailer 2</string>
 </resources>

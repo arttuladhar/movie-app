@@ -7,6 +7,7 @@ import com.aayushtuladhar.android.movieapp.data.Select;
 import com.aayushtuladhar.android.movieapp.data.remote.MoviedbService;
 import com.aayushtuladhar.android.movieapp.data.remote.RetrofitClient;
 import com.aayushtuladhar.android.movieapp.model.MovieResponse;
+import com.aayushtuladhar.android.movieapp.model.MovieVideosResponse;
 
 import retrofit2.Call;
 
@@ -30,4 +31,10 @@ public class MovieDbClientUtils {
                 return moviedbService.getPopularMovies(API_KEY);
         }
     }
+
+    public static Call<MovieVideosResponse> getVideosForMovie(Integer movieId){
+        MoviedbService moviedbService = RetrofitClient.getClient(BASE_URL).create(MoviedbService.class);
+        return moviedbService.getVideosForMovie(movieId, API_KEY);
+    }
+
 }

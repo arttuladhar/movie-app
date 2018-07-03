@@ -4,15 +4,14 @@ import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class MovieResponse {
+public class MovieVideosResponse {
 
     @SerializedName("id")
     @Expose
     private Integer id;
-
     @SerializedName("results")
     @Expose
-    private List<Movie> movies = null;
+    private List<MovieVideo> movieVideos = null;
 
     public Integer getId() {
         return id;
@@ -22,18 +21,11 @@ public class MovieResponse {
         this.id = id;
     }
 
-    public List<Movie> getMovies() {
-        return movies;
+    public List<MovieVideo> getMovieVideos() {
+        return movieVideos;
     }
 
-    public void setMovies(List<Movie> movies) {
-        this.movies = movies;
-    }
-
-    @Override
-    public String toString() {
-        return "MovieResponse{" +
-                "movies=" + movies +
-                '}';
+    public void setMovieVideos(List<MovieVideo> movieVideos) {
+        this.movieVideos = movieVideos;
     }
 }

@@ -87,13 +87,14 @@
                 app:layout_constraintTop_toBottomOf="@+id/textViewReleaseDate"
                 tools:text="8.5" />
 
+
             <TextView
                 android:id="@+id/textViewMoviePlot"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="16dp"
                 android:background="@android:color/holo_blue_light"
                 android:padding="8dp"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium.Inverse"
@@ -102,6 +103,41 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/imgMovieBackdrop"
                 tools:text="Plot" />
+
+            <TextView
+                android:id="@+id/textViewMovieReviews"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:background="@android:color/holo_green_light"
+                android:padding="8dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium.Inverse"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewMoviePlot"
+                tools:text="Reviews" />
+
+            <Button
+                android:id="@+id/btn_trailer_one"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="@string/trailer_two"
+                app:layout_constraintStart_toEndOf="@+id/btn_trailer_two"
+                app:layout_constraintTop_toTopOf="@+id/btn_trailer_two" />
+
+            <Button
+                android:id="@+id/btn_trailer_two"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/trailer_one"
+                app:layout_constraintStart_toEndOf="@+id/imgMovieBackdrop"
+                app:layout_constraintTop_toBottomOf="@+id/textViewUserRatingLabel" />
+
         </android.support.constraint.ConstraintLayout>
     </android.support.v4.widget.NestedScrollView>
 </layout>
