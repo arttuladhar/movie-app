@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         // Register onSharedPreferenceChangeListener to Activity
         sharedPreferences.registerOnSharedPreferenceChangeListener(this);
+
         Select sort = getSortFromPreferences();
         getMoviesfromApi(this, sort);
     }
@@ -82,15 +83,15 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
                         }
                     });
                 }else {
-                    Log.wtf(TAG, "Error perfoming API call. Make sure API Key is Valid");
-                    closeOnError();
+                    Log.e(TAG, "onResponse(); Unsuccess Response Code; Error perfoming API call. Make sure API Key is Valid");
+                    //closeOnError();
                 }
 
             }
 
             @Override
             public void onFailure(Call<MovieResponse> call, Throwable t) {
-                Log.wtf(TAG, "Error perfoming API call. Make sure API Key is Valid");
+                Log.e(TAG, "Call Failed; Error performing getting Movies. Error - " + t.getMessage());
                 closeOnError();
             }
         });
