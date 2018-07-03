@@ -1,5 +1,7 @@
 package com.aayushtuladhar.android.movieapp.utils;
 
+import android.util.Log;
+
 import com.aayushtuladhar.android.movieapp.BuildConfig;
 import com.aayushtuladhar.android.movieapp.data.Select;
 import com.aayushtuladhar.android.movieapp.data.remote.MoviedbService;
@@ -9,6 +11,8 @@ import com.aayushtuladhar.android.movieapp.model.MovieResponse;
 import retrofit2.Call;
 
 public class MovieDbClientUtils {
+
+    public static final String TAG = MovieDbClientUtils.class.getSimpleName();
 
     public static final String BASE_URL = "http://api.themoviedb.org";
     public static final String POSTER_BASEURL = "http://image.tmdb.org/t/p/w185/";
@@ -22,6 +26,7 @@ public class MovieDbClientUtils {
             case TOP_RATED:
                 return moviedbService.getTopRatedMovies(API_KEY);
             default:
+                Log.e(TAG, "getPopularMovies with Default Select");
                 return moviedbService.getPopularMovies(API_KEY);
         }
     }

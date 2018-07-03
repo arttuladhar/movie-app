@@ -2,10 +2,10 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <ListPreference android:title="Sort By"
-        android:key="sort_by"
+        android:key="@string/settings_sort_by_key"
         android:entries="@array/movieSortOrder"
         android:entryValues="@array/movieSortOrder"
-        android:defaultValue="Highest Rated"
+        android:defaultValue="Most Popular"
         />
     <Preference android:title="Version"
         android:summary="1.1"
