@@ -4,19 +4,26 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.graphics.Color;
 import android.net.Uri;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.aayushtuladhar.android.movieapp.databinding.ActivityMovieDetailsBinding;
 import com.aayushtuladhar.android.movieapp.model.Movie;
+import com.aayushtuladhar.android.movieapp.model.MovieReviewsResponse;
 import com.aayushtuladhar.android.movieapp.model.MovieVideo;
 import com.aayushtuladhar.android.movieapp.model.MovieVideosResponse;
+import com.aayushtuladhar.android.movieapp.model.Review;
 import com.aayushtuladhar.android.movieapp.utils.MovieDbClientUtils;
 import com.squareup.picasso.Picasso;
 
@@ -52,6 +59,8 @@ public class MovieDetailsActivity extends AppCompatActivity{
 
         // Make additional Calls for Movie Reviews and Trailer
         getTrailerForMovie(movie.getId());
+        getReviewsForMovie(movie.getId());
+
     }
 
     private void closeOnError() {
@@ -59,33 +68,77 @@ public class MovieDetailsActivity extends AppCompatActivity{
         Toast.makeText(this, R.string.detail_error_message, Toast.LENGTH_SHORT).show();
     }
 
-    private void getTrailerForMovie(Integer id){
+    private void getTrailerForMovie(final Integer movieId){
+        Log.i(TAG, "Getting Trailer for Movie: " + movieId);
 
-        Call<MovieVideosResponse> videosForMovie = MovieDbClientUtils.getVideosForMovie(id);
+        Call<MovieVideosResponse> videosForMovie = MovieDbClientUtils.getVideosForMovie(movieId);
         videosForMovie.enqueue(new Callback<MovieVideosResponse>() {
             @Override
             public void onResponse(Call<MovieVideosResponse> call, Response<MovieVideosResponse> response) {
-
                 if (response.isSuccessful()){
                     final List<MovieVideo> videos = response.body().getMovieVideos();
+                    Log.i(TAG, "Got Trailers for Movie: " + videos.size());
                     addTrailersForMovie(videos);
-
                 } else{
-                    Log.e(TAG, "Unsuccessful Response");
+                    Log.e(TAG, response.code() + " - Response Code; Error getting Videos for Movie: (Failed Response)" + movieId);
                 }
-
             }
 
             @Override
             public void onFailure(Call<MovieVideosResponse> call, Throwable t) {
-                Log.e(TAG, "Error getting Trailers for Movies");
+                Log.e(TAG, "Error getting Trailers for Movie: " + movieId);
                 closeOnError();
 
             }
         });
     }
 
-    void addTrailersForMovie(final List<MovieVideo> videos){
+    private void getReviewsForMovie(final Integer movieId){
+        Log.i(TAG, "Getting Reviews for Movie: " + movieId);
+
+        Call<MovieReviewsResponse> reviewsResponseCall = MovieDbClientUtils.getReviewsForMovie(movieId);
+        reviewsResponseCall.enqueue(new Callback<MovieReviewsResponse>() {
+            @Override
+            public void onResponse(Call<MovieReviewsResponse> call, Response<MovieReviewsResponse> response) {
+                if (response.isSuccessful()){
+
+                    final List<Review> reviews = response.body().getReviews();
+                    Log.i(TAG, "Got Review for Movie: " + reviews.size());
+
+                    addReviewsForMovie(reviews);
+                } else {
+                    Log.e(TAG, response.code() + " - Response Code; Error getting Reviews for Movie: (Failed Response)" + movieId);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<MovieReviewsResponse> call, Throwable t) {
+                Log.e(TAG, "Error getting Reviews for Movie: " + movieId);
+                closeOnError();
+            }
+        });
+    }
+
+    private void addReviewsForMovie(final List<Review> reviews){
+        if (reviews.size() >= 1){
+
+            //TODO: Convert to ArrayAdapter
+            StringBuilder sb = new StringBuilder();
+            for (Review review : reviews) {
+                sb.append("Author: " + review.getAuthor() + "\n");
+                sb.append("Review: "  + review.getContent() + "\n");
+                sb.append("\n ____________________________________ \n");
+            }
+            activityMovieDetailsBinding.textViewReviews.setText(sb.toString());
+        } else {
+            activityMovieDetailsBinding.textViewReviewText.setVisibility(View.INVISIBLE);
+            activityMovieDetailsBinding.textViewReviews.setVisibility(View.INVISIBLE);
+        }
+    }
+
+
+
+    private void addTrailersForMovie(final List<MovieVideo> videos){
         if (videos.size() >= 2){
             activityMovieDetailsBinding.btnTrailerOne.setOnClickListener(new View.OnClickListener() {
                 @Override

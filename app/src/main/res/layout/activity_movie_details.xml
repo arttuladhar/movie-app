@@ -87,6 +87,31 @@
                 app:layout_constraintTop_toBottomOf="@+id/textViewReleaseDate"
                 tools:text="8.5" />
 
+            <TextView
+                android:id="@+id/textViewPlotText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:fontFamily="sans-serif-smallcaps"
+                android:text="Plot Synopsis"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imgMovieBackdrop" />
+
+            <TextView
+                android:id="@+id/textViewReviewText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:fontFamily="sans-serif-smallcaps"
+                android:text="Reviews"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewMoviePlot" />
 
             <TextView
                 android:id="@+id/textViewMoviePlot"
@@ -94,37 +119,38 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
                 android:background="@android:color/holo_blue_light"
                 android:padding="8dp"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium.Inverse"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imgMovieBackdrop"
+                app:layout_constraintTop_toBottomOf="@+id/textViewPlotText"
                 tools:text="Plot" />
 
             <TextView
-                android:id="@+id/textViewMovieReviews"
+                android:id="@+id/textViewReviews"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:background="@android:color/holo_green_light"
+                android:background="@android:color/holo_green_dark"
                 android:padding="8dp"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium.Inverse"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textViewMoviePlot"
+                app:layout_constraintTop_toBottomOf="@+id/textViewReviewText"
                 tools:text="Reviews" />
 
             <Button
                 android:id="@+id/btn_trailer_one"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
                 android:text="@string/trailer_two"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/btn_trailer_two"
                 app:layout_constraintTop_toTopOf="@+id/btn_trailer_two" />
 
@@ -132,9 +158,11 @@
                 android:id="@+id/btn_trailer_two"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="16dp"
                 android:text="@string/trailer_one"
+                app:layout_constraintEnd_toStartOf="@+id/btn_trailer_one"
                 app:layout_constraintStart_toEndOf="@+id/imgMovieBackdrop"
                 app:layout_constraintTop_toBottomOf="@+id/textViewUserRatingLabel" />
 
