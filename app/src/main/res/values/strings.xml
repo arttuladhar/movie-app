@@ -4,4 +4,5 @@
     <string name="settings_sort_by_key">sort_by</string>
     <string name="trailer_one">Trailer 1</string>
     <string name="trailer_two">Trailer 2</string>
+    <string name="imgPoster">Image Poster</string>
 </resources>

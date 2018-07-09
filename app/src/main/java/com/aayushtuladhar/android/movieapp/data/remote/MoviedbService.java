@@ -1,6 +1,7 @@
 package com.aayushtuladhar.android.movieapp.data.remote;
 
 
+import com.aayushtuladhar.android.movieapp.model.Movie;
 import com.aayushtuladhar.android.movieapp.model.MovieResponse;
 import com.aayushtuladhar.android.movieapp.model.MovieReviewsResponse;
 import com.aayushtuladhar.android.movieapp.model.MovieVideosResponse;
@@ -23,5 +24,8 @@ public interface MoviedbService {
 
     @GET("3/movie/{id}/reviews")
     Call<MovieReviewsResponse> getReviewsForMovie(@Path("id")int id, @Query("api_key") String apiKey);
+
+    @GET("3/movie/{id}")
+    Call<Movie> getMovieForId(@Path("id")int id, @Query("api_key") String apiKey);
 
 }

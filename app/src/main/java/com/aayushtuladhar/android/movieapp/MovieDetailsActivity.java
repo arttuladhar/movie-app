@@ -25,11 +25,14 @@ import com.aayushtuladhar.android.movieapp.utils.AppDatabase;
 import com.aayushtuladhar.android.movieapp.utils.MovieDbClientUtils;
 import com.squareup.picasso.Picasso;
 
+import java.io.Serializable;
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static com.aayushtuladhar.android.movieapp.FavoriteMoviesActivity.MOVIE_ID;
 
 public class MovieDetailsActivity extends AppCompatActivity{
 
@@ -49,12 +52,42 @@ public class MovieDetailsActivity extends AppCompatActivity{
         if (intent == null) {
             closeOnError();
         }
-        mMovie = (Movie) intent.getSerializableExtra(MOVIE);
-        populateView(mMovie);
+
+        if (intent.hasExtra(MOVIE)){
+            mMovie = (Movie) intent.getSerializableExtra(MOVIE);
+
+            populateView(mMovie);
+            getDetailsForMovie(mMovie.getId());
+
+
+        } else if (intent.hasExtra(MOVIE_ID)){
+            Integer movieId = intent.getIntExtra(MOVIE_ID, 0);
+
+            Call<Movie> movieForId = MovieDbClientUtils.getMovieForId(movieId);
+            movieForId.enqueue(new Callback<Movie>() {
+                @Override
+                public void onResponse(Call<Movie> call, Response<Movie> response) {
+                    if (response.isSuccessful()){
+                        mMovie = response.body();
+                        populateView(mMovie);
+                        getDetailsForMovie(mMovie.getId());
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Movie> call, Throwable t) {
+
+                }
+            });
+        }
+
+    }
+
+    private void getDetailsForMovie(Integer movieId){
 
         // Make additional Calls for Movie Reviews and Trailer
-        getTrailerForMovie(mMovie.getId());
-        getReviewsForMovie(mMovie.getId());
+        getTrailerForMovie(movieId);
+        getReviewsForMovie(movieId);
     }
 
     private void closeOnError() {
