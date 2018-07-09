@@ -3,7 +3,7 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 27
     defaultConfig {
-        applicationId "com.aayushtuladhar.android.artpass"
+        applicationId "com.aayushtuladhar.android.movieapp"
         minSdkVersion 17
         targetSdkVersion 27
         versionCode 1
@@ -26,6 +26,7 @@ android {
 
 ext {
     supportLibVersion = '27.1.1'  // variable that can be referenced to keep support libs consistent
+    roomLibVersion = '1.1.1'
 }
 
 dependencies {
@@ -40,8 +41,14 @@ dependencies {
     implementation "com.android.support:appcompat-v7:${supportLibVersion}"
     implementation "com.android.support:design:${supportLibVersion}"
 
-    implementation 'com.android.support.constraint:constraint-layout:1.1.0'
 
+    implementation "android.arch.persistence.room:runtime:${roomLibVersion}"
+    annotationProcessor "android.arch.persistence.room:compiler:${roomLibVersion}"
+    implementation 'com.android.support.constraint:constraint-layout:1.1.0'
+    implementation 'com.android.support:support-v4:27.1.1'
+
+    //Testing
+    testImplementation "android.arch.persistence.room:testing:${roomLibVersion}"
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'

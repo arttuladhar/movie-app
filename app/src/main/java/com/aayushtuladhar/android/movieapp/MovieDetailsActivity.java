@@ -4,26 +4,24 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.graphics.Color;
 import android.net.Uri;
-import android.support.constraint.ConstraintLayout;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import com.aayushtuladhar.android.movieapp.data.FavoriteMovie;
 import com.aayushtuladhar.android.movieapp.databinding.ActivityMovieDetailsBinding;
 import com.aayushtuladhar.android.movieapp.model.Movie;
 import com.aayushtuladhar.android.movieapp.model.MovieReviewsResponse;
 import com.aayushtuladhar.android.movieapp.model.MovieVideo;
 import com.aayushtuladhar.android.movieapp.model.MovieVideosResponse;
 import com.aayushtuladhar.android.movieapp.model.Review;
+import com.aayushtuladhar.android.movieapp.utils.AppDatabase;
 import com.aayushtuladhar.android.movieapp.utils.MovieDbClientUtils;
 import com.squareup.picasso.Picasso;
 
@@ -38,7 +36,8 @@ public class MovieDetailsActivity extends AppCompatActivity{
     public static final String MOVIE = "MOVIE";
     private static final String TAG = MovieDetailsActivity.class.getCanonicalName();
     private ActivityMovieDetailsBinding activityMovieDetailsBinding;
-
+    private Movie mMovie;
+    private AppDatabase mDb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,21 +45,16 @@ public class MovieDetailsActivity extends AppCompatActivity{
         setContentView(R.layout.activity_movie_details);
 
         activityMovieDetailsBinding = DataBindingUtil.setContentView(this, R.layout.activity_movie_details);
-
         Intent intent = getIntent();
         if (intent == null) {
             closeOnError();
         }
-
-        Movie movie = (Movie) intent.getSerializableExtra(MOVIE);
-
-
-        populateView(movie);
+        mMovie = (Movie) intent.getSerializableExtra(MOVIE);
+        populateView(mMovie);
 
         // Make additional Calls for Movie Reviews and Trailer
-        getTrailerForMovie(movie.getId());
-        getReviewsForMovie(movie.getId());
-
+        getTrailerForMovie(mMovie.getId());
+        getReviewsForMovie(mMovie.getId());
     }
 
     private void closeOnError() {
@@ -101,7 +95,6 @@ public class MovieDetailsActivity extends AppCompatActivity{
             @Override
             public void onResponse(Call<MovieReviewsResponse> call, Response<MovieReviewsResponse> response) {
                 if (response.isSuccessful()){
-
                     final List<Review> reviews = response.body().getReviews();
                     Log.i(TAG, "Got Review for Movie: " + reviews.size());
 
@@ -201,6 +194,31 @@ public class MovieDetailsActivity extends AppCompatActivity{
             return "N/A";
         } else {
             return str;
+        }
+    }
+
+    public void addToFavorite(View view){
+        Integer movieId = mMovie.getId();
+        Log.i(TAG, "Adding Movie to Favorite: " + movieId.toString());
+        mDb = AppDatabase.getAppDatabase(this);
+
+        FavoriteMovie favoriteMovie = new FavoriteMovie(mMovie.getId(), mMovie.getTitle(), mMovie.getPosterPath(), mMovie.getReleaseDate());
+
+        //Adding Favorite Movie to Database
+        new AddToFavoriteAsync().execute(favoriteMovie);
+    }
+
+    class AddToFavoriteAsync extends AsyncTask<FavoriteMovie, Void, Boolean>{
+
+        @Override
+        protected Boolean doInBackground(FavoriteMovie... favoriteMovies) {
+            mDb.favoriteMovieDao().insertAll(favoriteMovies);
+            return true;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            Log.i(TAG, "Movie Added to Database");
         }
     }
 }

@@ -116,6 +116,11 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
             startActivity(startSettingsActivity);
             return true;
         }
+        if (item.getItemId() == R.id.favorites){
+            Intent startSettingsActivity = new Intent(this, FavoriteMoviesActivity.class);
+            startActivity(startSettingsActivity);
+            return true;
+        }
         return super.onOptionsItemSelected(item);
     }
 
