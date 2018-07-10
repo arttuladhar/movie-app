@@ -5,4 +5,7 @@
     <string name="trailer_one">Trailer 1</string>
     <string name="trailer_two">Trailer 2</string>
     <string name="imgPoster">Image Poster</string>
+    <string name="addedToFavList">Movie added to Favorites</string>
+    <string name="removeFromFavList">Movie removed from Favorites</string>
+    <string name="my_favorites">My Favorites</string>
 </resources>

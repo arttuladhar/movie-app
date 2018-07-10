@@ -27,6 +27,7 @@ import com.squareup.picasso.Picasso;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -46,6 +47,8 @@ public class MovieDetailsActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_details);
+        mDb = AppDatabase.getAppDatabase(this);
+
 
         activityMovieDetailsBinding = DataBindingUtil.setContentView(this, R.layout.activity_movie_details);
         Intent intent = getIntent();
@@ -55,9 +58,7 @@ public class MovieDetailsActivity extends AppCompatActivity{
 
         if (intent.hasExtra(MOVIE)){
             mMovie = (Movie) intent.getSerializableExtra(MOVIE);
-
             populateView(mMovie);
-            getDetailsForMovie(mMovie.getId());
 
 
         } else if (intent.hasExtra(MOVIE_ID)){
@@ -70,7 +71,6 @@ public class MovieDetailsActivity extends AppCompatActivity{
                     if (response.isSuccessful()){
                         mMovie = response.body();
                         populateView(mMovie);
-                        getDetailsForMovie(mMovie.getId());
                     }
                 }
 
@@ -80,14 +80,6 @@ public class MovieDetailsActivity extends AppCompatActivity{
                 }
             });
         }
-
-    }
-
-    private void getDetailsForMovie(Integer movieId){
-
-        // Make additional Calls for Movie Reviews and Trailer
-        getTrailerForMovie(movieId);
-        getReviewsForMovie(movieId);
     }
 
     private void closeOnError() {
@@ -165,6 +157,7 @@ public class MovieDetailsActivity extends AppCompatActivity{
 
 
     private void addTrailersForMovie(final List<MovieVideo> videos){
+
         if (videos.size() >= 2){
             activityMovieDetailsBinding.btnTrailerOne.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -220,7 +213,32 @@ public class MovieDetailsActivity extends AppCompatActivity{
         activityMovieDetailsBinding.textViewUserRating.setText(setNAIfEmpty(String.valueOf(movie.getVoteAverage())));
         activityMovieDetailsBinding.textViewMoviePlot.setText(setNAIfEmpty(movie.getOverview()));
 
+        // Make additional Calls for Movie Reviews and Trailer
+        getTrailerForMovie(movie.getId());
+        getReviewsForMovie(movie.getId());
+
+        // Check Movie in FavoriteList
+        if (checkMovieInFavList(movie.getId())){
+            activityMovieDetailsBinding.btnFavorite.setImageResource(R.drawable.ic_star_black_24dp);
+        }
     }
+
+    private boolean checkMovieInFavList(Integer movieId){
+        List<FavoriteMovie> favMovies = null;
+        try {
+            favMovies = new GetAllFavoriteAsync().execute().get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
+
+        for (FavoriteMovie favoriteMovie : favMovies){
+            if (favoriteMovie.getId().equals(movieId)){
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     private String setNAIfEmpty(String str) {
         if (TextUtils.isEmpty(str)) {
@@ -232,17 +250,22 @@ public class MovieDetailsActivity extends AppCompatActivity{
 
     public void addToFavorite(View view){
         Integer movieId = mMovie.getId();
-        Log.i(TAG, "Adding Movie to Favorite: " + movieId.toString());
-        mDb = AppDatabase.getAppDatabase(this);
+        Log.i(TAG, "Prepping Adding Movie to Favorite: " + movieId.toString());
 
-        FavoriteMovie favoriteMovie = new FavoriteMovie(mMovie.getId(), mMovie.getTitle(), mMovie.getPosterPath(), mMovie.getReleaseDate());
-
-        //Adding Favorite Movie to Database
-        new AddToFavoriteAsync().execute(favoriteMovie);
+        //Check Already in Database
+        if (checkMovieInFavList(movieId)){
+            Log.i(TAG, "Movie Already in Fav List, so Removing from List");
+            FavoriteMovie favoriteMovie = new FavoriteMovie(mMovie.getId(), mMovie.getTitle(), mMovie.getPosterPath(), mMovie.getReleaseDate());
+            new RemoveFavoriteAsync().execute(favoriteMovie);
+        } else {
+            Log.i(TAG, "Adding Movie to Database");
+            //Adding Favorite Movie to Database
+            FavoriteMovie favoriteMovie = new FavoriteMovie(mMovie.getId(), mMovie.getTitle(), mMovie.getPosterPath(), mMovie.getReleaseDate());
+            new AddToFavoriteAsync().execute(favoriteMovie);
+        }
     }
 
     class AddToFavoriteAsync extends AsyncTask<FavoriteMovie, Void, Boolean>{
-
         @Override
         protected Boolean doInBackground(FavoriteMovie... favoriteMovies) {
             mDb.favoriteMovieDao().insertAll(favoriteMovies);
@@ -252,6 +275,32 @@ public class MovieDetailsActivity extends AppCompatActivity{
         @Override
         protected void onPostExecute(Boolean aBoolean) {
             Log.i(TAG, "Movie Added to Database");
+            activityMovieDetailsBinding.btnFavorite.setImageResource(R.drawable.ic_star_black_24dp);
+            Toast.makeText(getApplicationContext(), R.string.addedToFavList, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    class GetAllFavoriteAsync extends AsyncTask<Void, Void, List<FavoriteMovie>>{
+        @Override
+        protected List<FavoriteMovie> doInBackground(Void... voids) {
+            return mDb.favoriteMovieDao().getAll();
+        }
+    }
+
+    class RemoveFavoriteAsync extends AsyncTask<FavoriteMovie, Void, Boolean>{
+
+        @Override
+        protected Boolean doInBackground(FavoriteMovie... favoriteMovies) {
+            mDb.favoriteMovieDao().delete(favoriteMovies);
+            return true;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            if (aBoolean){
+                activityMovieDetailsBinding.btnFavorite.setImageResource(R.drawable.ic_star_border_black_24dp);
+                Toast.makeText(getApplicationContext(), R.string.removeFromFavList, Toast.LENGTH_SHORT).show();
+            }
         }
     }
 }
