@@ -2,4 +2,4 @@
 
 ### Running app
 
-Update `build.grade` file to replace API Key from http://themoviedb.org/
+Update `app/build.grade` file to replace API Key from http://themoviedb.org/
